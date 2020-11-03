@@ -12,6 +12,7 @@ import com.example.todolist.databinding.EachTaskLayoutBinding
 class TasksAdapter(val onClickListener: OnClickListener) :
     ListAdapter<ToDoData, TasksAdapter.TaskViewHolder>(ToDoTaskDiffCallback()) {
 
+
     class TaskViewHolder(private val binding: EachTaskLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

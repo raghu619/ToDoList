@@ -47,7 +47,7 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left" />
         <argument
-            android:name="TodoItem"
+            android:name="todoItem"
             app:argType="com.example.todolist.data.models.ToDoData" />
     </fragment>
 </navigation>

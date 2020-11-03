@@ -29,13 +29,10 @@ class AddTaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_task, container, false)
-
         setHasOptionsMenu(true)
         binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
-
         return binding.root
     }
 
@@ -59,7 +56,6 @@ class AddTaskFragment : Fragment() {
         val mDescription = binding.descriptionEt.text.toString()
         val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
         if (validation) {
-            // Insert Data to Database
             val newData = ToDoData(
                 0,
                 mTitle,
@@ -68,7 +64,6 @@ class AddTaskFragment : Fragment() {
             )
             mToDoViewModel.insertData(newData)
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-            // Navigate Back
             findNavController().navigate(R.id.action_addTaskFragment_to_tasksFragment)
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)

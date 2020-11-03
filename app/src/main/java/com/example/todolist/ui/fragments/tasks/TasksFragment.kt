@@ -14,8 +14,10 @@ import com.example.todolist.R
 import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.databinding.FragmentTasksBinding
 import com.example.todolist.utils.SwipeToDelete
+import com.example.todolist.utils.hideKeyboard
 import com.example.todolist.viewmodels.SharedViewModel
 import com.example.todolist.viewmodels.ToDoViewModel
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,16 +43,22 @@ class TasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tasks, container, false)
         binding.lifecycleOwner = this
+        binding.mSharedViewModel = mSharedViewModel
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
+        swipeToDelete(recyclerView)
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { results ->
+            mSharedViewModel.checkIfDatabaseEmpty(results)
             adapter.submitList(results)
         })
-        swipeToDelete(recyclerView)
+        hideKeyboard(requireActivity())
         return binding.root
     }
 
