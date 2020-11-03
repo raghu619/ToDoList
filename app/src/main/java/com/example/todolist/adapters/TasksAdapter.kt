@@ -9,7 +9,8 @@ import com.example.todolist.data.models.ToDoData
 import com.example.todolist.databinding.EachTaskLayoutBinding
 
 
-class TasksAdapter : ListAdapter<ToDoData, TasksAdapter.TaskViewHolder>(ToDoTaskDiffCallback()) {
+class TasksAdapter(val onClickListener: OnClickListener) :
+    ListAdapter<ToDoData, TasksAdapter.TaskViewHolder>(ToDoTaskDiffCallback()) {
 
     class TaskViewHolder(private val binding: EachTaskLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -33,20 +34,21 @@ class TasksAdapter : ListAdapter<ToDoData, TasksAdapter.TaskViewHolder>(ToDoTask
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-
         return TaskViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val toDoData = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(toDoData)
+        }
         holder.bind(toDoData)
     }
 
 
-     fun getDataItem(position :Int): ToDoData? {
-         return   getItem(position)
-
-     }
+    fun getDataItem(position: Int): ToDoData? {
+        return getItem(position)
+    }
 
     class ToDoTaskDiffCallback : DiffUtil.ItemCallback<ToDoData>() {
 
@@ -64,4 +66,9 @@ class TasksAdapter : ListAdapter<ToDoData, TasksAdapter.TaskViewHolder>(ToDoTask
                     oldItem.priority == newItem.priority
         }
     }
+
+    class OnClickListener(val clickListener: (toDoItem: ToDoData) -> Unit) {
+        fun onClick(toDoItem: ToDoData) = clickListener(toDoItem)
+    }
+
 }

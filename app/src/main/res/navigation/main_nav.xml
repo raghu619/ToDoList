@@ -46,5 +46,8 @@
             app:destination="@id/tasksFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left" />
+        <argument
+            android:name="TodoItem"
+            app:argType="com.example.todolist.data.models.ToDoData" />
     </fragment>
 </navigation>
