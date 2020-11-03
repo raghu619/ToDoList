@@ -5,14 +5,11 @@ import android.view.View
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.todolist.R
 import com.example.todolist.data.models.Priority
-import com.example.todolist.data.models.ToDoData
-import com.example.todolist.ui.fragments.list.TasksFragmentDirections
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BindingAdapters {

@@ -7,15 +7,23 @@
 
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.example.todolist.ui.fragments.list.TasksFragment"
+        android:name="com.example.todolist.ui.fragments.tasks.TasksFragment"
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" >
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
+            app:destination="@id/addTaskFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_tasksFragment_to_updateTaskFragment"
-            app:destination="@id/updateTaskFragment" />
+            app:destination="@id/updateTaskFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -24,7 +32,9 @@
         tools:layout="@layout/fragment_add_task" >
         <action
             android:id="@+id/action_addTaskFragment_to_tasksFragment"
-            app:destination="@id/tasksFragment" />
+            app:destination="@id/tasksFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/updateTaskFragment"
@@ -33,6 +43,8 @@
         tools:layout="@layout/fragment_update_task" >
         <action
             android:id="@+id/action_updateTaskFragment_to_tasksFragment"
-            app:destination="@id/tasksFragment" />
+            app:destination="@id/tasksFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
     </fragment>
 </navigation>

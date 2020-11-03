@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="mSharedViewModel"
+            type="com.example.todolist.viewmodels.SharedViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/listLayout"
@@ -26,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:navigateToAddFragment="@{true}"
             android:clickable="true"
             android:focusable="true"
+            android:navigateToAddFragment="@{true}"
             android:src="@drawable/ic_add"
             android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
