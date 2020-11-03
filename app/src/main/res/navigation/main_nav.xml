@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.example.todolist.ui.fragments.tasks.TasksFragment"
-        android:label="fragment_tasks"
+        android:label="TODO TASKS"
         tools:layout="@layout/fragment_tasks" >
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.example.todolist.ui.fragments.add.AddTaskFragment"
-        android:label="fragment_add_task"
+        android:label="ADD TASK"
         tools:layout="@layout/fragment_add_task" >
         <action
             android:id="@+id/action_addTaskFragment_to_tasksFragment"
@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/updateTaskFragment"
         android:name="com.example.todolist.ui.fragments.update.UpdateTaskFragment"
-        android:label="fragment_update_task"
+        android:label="UPDATE TASK"
         tools:layout="@layout/fragment_update_task" >
         <action
             android:id="@+id/action_updateTaskFragment_to_tasksFragment"

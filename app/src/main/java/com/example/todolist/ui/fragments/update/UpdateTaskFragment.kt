@@ -16,10 +16,6 @@ import com.example.todolist.viewmodels.SharedViewModel
 import com.example.todolist.viewmodels.ToDoViewModel
 
 
-/**
- * A simple [Fragment] subclass.
- * create an instance of this fragment.
- */
 class UpdateTaskFragment : Fragment() {
 
     private val args by navArgs<UpdateTaskFragmentArgs>()
@@ -53,8 +49,6 @@ class UpdateTaskFragment : Fragment() {
 
 
     private fun updateItem() {
-
-
         val title = binding.currentTitleEt.text.toString()
         val description = binding.currentDescriptionEt.text.toString()
         val getPriority = binding.currentPrioritiesSpinner.selectedItem.toString()

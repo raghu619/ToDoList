@@ -14,10 +14,6 @@ import com.example.todolist.viewmodels.SharedViewModel
 import com.example.todolist.viewmodels.ToDoViewModel
 
 
-/**
- * A simple [Fragment] subclass.
- * create an instance of this fragment.
- */
 class AddTaskFragment : Fragment() {
 
     private val mToDoViewModel: ToDoViewModel by viewModels()

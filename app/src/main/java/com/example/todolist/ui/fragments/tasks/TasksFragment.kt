@@ -19,8 +19,6 @@ import com.example.todolist.viewmodels.SharedViewModel
 import com.example.todolist.viewmodels.ToDoViewModel
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
 /**
  * A simple [Fragment] subclass.

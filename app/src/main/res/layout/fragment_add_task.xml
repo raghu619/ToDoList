@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -8,19 +6,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp">
+        android:padding="@dimen/size_24dp">
 
 
         <EditText
             android:id="@+id/title_et"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/size_60dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:hint="@string/title"
             android:inputType="textPersonName"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:paddingStart="@dimen/size_24dp"
+            android:paddingEnd="@dimen/size_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +27,12 @@
         <Spinner
             android:id="@+id/priorities_spinner"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/size_60dp"
+            android:layout_marginTop="@dimen/size_8dp"
             android:background="@drawable/custom_input"
             android:entries="@array/priorities"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:paddingStart="@dimen/size_20dp"
+            android:paddingEnd="@dimen/size_20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,15 +42,15 @@
             android:id="@+id/description_et"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/size_8dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:gravity="top|start"
             android:hint="@string/description"
             android:inputType="textMultiLine"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
+            android:paddingStart="@dimen/size_24dp"
+            android:paddingTop="@dimen/size_16dp"
+            android:paddingEnd="@dimen/size_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
