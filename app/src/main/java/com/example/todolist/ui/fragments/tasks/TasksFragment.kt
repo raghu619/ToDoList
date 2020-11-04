@@ -1,7 +1,9 @@
 package com.example.todolist.ui.fragments.tasks
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.adapters.TasksAdapter
+import com.example.todolist.data.models.ToDoData
 import com.example.todolist.databinding.FragmentTasksBinding
 import com.example.todolist.utils.SwipeToDelete
 import com.example.todolist.utils.hideKeyboard
 import com.example.todolist.viewmodels.SharedViewModel
 import com.example.todolist.viewmodels.ToDoViewModel
+import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
@@ -33,10 +37,15 @@ class TasksFragment : Fragment() {
     private val adapter: TasksAdapter by lazy {
         TasksAdapter(
             TasksAdapter.OnClickListener {
-                findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToUpdateTaskFragment(it))
+                findNavController().navigate(
+                    TasksFragmentDirections.actionTasksFragmentToUpdateTaskFragment(
+                        it
+                    )
+                )
             }
         )
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +66,7 @@ class TasksFragment : Fragment() {
             adapter.submitList(results)
         })
         hideKeyboard(requireActivity())
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -64,16 +74,57 @@ class TasksFragment : Fragment() {
         inflater.inflate(R.menu.list_fragment_menu, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_delete_all -> confirmRemoval()
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.submitList(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.submitList(it) })
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun swipeToDelete(recyclerView: RecyclerView) {
         val swipeToDeleteCallback = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val deletedItem = adapter.getDataItem(viewHolder.adapterPosition)
-                deletedItem?.let { mToDoViewModel.deleteItem(it) }
+                deletedItem?.let {
+                    mToDoViewModel.deleteItem(it)
+                    restoreDeletedData(viewHolder.itemView, deletedItem)
+                }
+
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
+    private fun restoreDeletedData(view: View, deletedItem: ToDoData) {
+        val snackBar = Snackbar.make(
+            view, "Deleted '${deletedItem.title}'",
+            Snackbar.LENGTH_LONG
+        )
+        snackBar.setAction("Undo") {
+            mToDoViewModel.insertData(deletedItem)
+        }
+        snackBar.show()
+    }
+
+    private fun confirmRemoval() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            mToDoViewModel.deleteAll()
+            Toast.makeText(
+                requireContext(),
+                "Successfully Removed Everything!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        builder.setNegativeButton("No") { _, _ -> }
+        builder.setTitle("Delete everything?")
+        builder.setMessage("Are you sure you want to remove everything?")
+        builder.create().show()
+    }
+
 
 
 }
