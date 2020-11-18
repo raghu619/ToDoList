@@ -12,6 +12,7 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="no_data">No Data</string>
+    <string name="search">Search</string>
 
     <string-array name="priorities">
         <item>High Priority</item>

@@ -3,6 +3,7 @@ package com.example.todolist.ui.fragments.tasks
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todolist.R
 import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.data.models.ToDoData
@@ -28,7 +30,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
  * A simple [Fragment] subclass.
  * create an instance of this fragment.
  */
-class TasksFragment : Fragment() {
+class TasksFragment : Fragment(), SearchView.OnQueryTextListener {
 
 
     private lateinit var binding: FragmentTasksBinding
@@ -54,12 +56,7 @@ class TasksFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tasks, container, false)
         binding.lifecycleOwner = this
         binding.mSharedViewModel = mSharedViewModel
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
-            addDuration = 300
-        }
+        val recyclerView = setupRecyclerView()
         swipeToDelete(recyclerView)
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { results ->
             mSharedViewModel.checkIfDatabaseEmpty(results)
@@ -70,15 +67,34 @@ class TasksFragment : Fragment() {
         return binding.root
     }
 
+    private fun setupRecyclerView(): RecyclerView {
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
+        return recyclerView
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
-            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.submitList(it) })
-            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.submitList(it) })
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(
+                this,
+                Observer { adapter.submitList(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(
+                this,
+                Observer { adapter.submitList(it) })
         }
         return super.onOptionsItemSelected(item)
     }
@@ -125,6 +141,30 @@ class TasksFragment : Fragment() {
         builder.create().show()
     }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
 
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+            list?.let {
+                adapter.submitList(it)
+            }
+        })
+    }
 
 }
